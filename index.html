@@ -29,7 +29,11 @@
           id: crypto.randomUUID(),
           completed: false
         };
-        setTasks(...tasks, newTask);
+        setTasks([...tasks, NewTask]);
+      }
+
+      function deleteTask(id) {
+
       }
 
       function toggleTask(id) {
@@ -53,7 +57,12 @@
 
       const handleSubmit = (e) => {
         e.preventDefault(); // Prevents page refresh
-      
+        
+        if (!text.trim()) { // Check if the task has no text
+          alert('Please enter a task');  
+          return;  // Don't call onAddTask
+        }
+
         if (text.trim()) { // Checks if text has any non-whitespace characters
           onAddTask(text, category);
 
@@ -86,6 +95,8 @@
   
 
     function TaskList({ tasks, onToggleTask, onDeleteTask }) {
+
+
       return (
         <ul>
         </ul>
