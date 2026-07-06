@@ -14,23 +14,83 @@
   <script src="https://unpkg.com/supersimpledev/babel.js"></script>
   <script type="text/babel">
     function App() { // Parent Component
+      const [tasks, setTasks] = React.useState([
+        { id: 1, text: 'Learn React', category: 'Personal', completed: false },
+        { id: 2, text: 'Build a project', category: 'Work', completed: true },
+      ]);
 
+      const[filter, setFilter] = useState('All');
+      const [searchTerm, setSearchTerm] = useState('');
+
+      function addTask() {
+        
+      }
+
+      return (
+        <div className="app">
+          <h1>Task Tracker</h1>
+          <TaskForm onAddTask={handleAddTask} />
+        </div>
+      )
     }
 
-    function Header() {
+    function TaskForm({ onAddTask }) {
+      const [text, setText] = useState('');
+      const [category, setCategory] = useState('Personal');
 
-    }
-
-    function TaskForm() {
-
-    }
-
-    function TaskList() {
+      const handleSubmit = (e) => {
+        e.preventDefault(); // Prevents page refresh
       
+        if (text.trim()) { // Checks if text has any non-whitespace characters
+          onAddTask();
+
+          setText('');
+          setCategory('Personal');
+        }
+      };
+
+      return (
+        <form onSubmit={handleSubmit}>
+          <>
+            <input
+              value={text}
+              onChange={(e)=>setText(e.target.value)}
+              placeHolder="Enter task..."
+            />
+            <select
+              value={category} 
+              onChange={(e) => setCategory(e.target.value)}
+            >  
+              <option value="Work">Work</option>
+              <option value="Personal">Personal</option>
+              <option value="Urgent">Urgent</option>
+            </select>
+            <button type="submit">Add Task</button>
+          </>
+        </form>
+      )
+    }
+  
+
+    function TaskList({ tasks, onToggleTask, onDeleteTask }) {
+      return (
+        <ul>
+        </ul>
+      )
     }
     
-    function TaskItem() {
+    function TaskItem({ task, onToggle, onDelete }) {
+      return (
+        <li>
+        </li>
+      )
+    }
 
+    function TaskFilters({ filter, onFilterChange, searchTerm, onSearchChange }) {
+      return (
+        <div>
+        </div>
+      );
     }
 
     const container = document.querySelector('.js-continer');
