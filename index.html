@@ -19,30 +19,43 @@
         { id: 2, text: 'Build a project', category: 'Work', completed: true },
       ]);
 
-      const[filter, setFilter] = useState('All');
-      const [searchTerm, setSearchTerm] = useState('');
+      const[filter, setFilter] = React.useState('All');
+      const [searchTerm, setSearchTerm] = React.useState('');
 
-      function addTask() {
-        
+      function addTask(text, category) {
+        const newTask = {
+          text: text,
+          category: category,
+          id: crypto.randomUUID(),
+          completed: false
+        };
+        setTasks(...tasks, newTask);
+      }
+
+      function toggleTask(id) {
+        setTasks(
+          tasks.map((task) => 
+            task.id === id ? {...task, completed: !task.completed} : task)
+        )
       }
 
       return (
         <div className="app">
           <h1>Task Tracker</h1>
-          <TaskForm onAddTask={handleAddTask} />
+          <TaskForm onAddTask={addTask} />
         </div>
       )
     }
 
     function TaskForm({ onAddTask }) {
-      const [text, setText] = useState('');
-      const [category, setCategory] = useState('Personal');
+      const [text, setText] = React.useState('');
+      const [category, setCategory] = React.useState('Personal');
 
       const handleSubmit = (e) => {
         e.preventDefault(); // Prevents page refresh
       
         if (text.trim()) { // Checks if text has any non-whitespace characters
-          onAddTask();
+          onAddTask(text, category);
 
           setText('');
           setCategory('Personal');
@@ -55,7 +68,7 @@
             <input
               value={text}
               onChange={(e)=>setText(e.target.value)}
-              placeHolder="Enter task..."
+              placeholder="Enter task..."
             />
             <select
               value={category} 
@@ -93,7 +106,7 @@
       );
     }
 
-    const container = document.querySelector('.js-continer');
+    const container = document.querySelector('.js-container');
     ReactDOM.createRoot(container).render(<App />)
   </script>
 </body>
