@@ -87,6 +87,7 @@
             onToggleTask={toggleTask}
             onDeleteTask={deleteTask}
           />
+          <p>{tasks.filter(task => !task.completed).length} tasks remaining</p>
         </div>
       )
     }
