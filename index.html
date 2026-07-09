@@ -29,18 +29,20 @@
           id: crypto.randomUUID(),
           completed: false
         };
-        setTasks([...tasks, NewTask]);
+        setTasks([...tasks, newTask]);
       }
 
       function deleteTask(id) {
-
+        setTasks((prevTasks) =>
+          prevTasks.filter((task => task.id !== id))
+        );
       }
 
       function toggleTask(id) {
-        setTasks(
-          tasks.map((task) => 
+        setTasks(prev =>
+          prev.map((task) =>
             task.id === id ? {...task, completed: !task.completed} : task)
-        )
+        );
       }
 
       return (
@@ -63,12 +65,9 @@
           return;  // Don't call onAddTask
         }
 
-        if (text.trim()) { // Checks if text has any non-whitespace characters
-          onAddTask(text, category);
-
-          setText('');
-          setCategory('Personal');
-        }
+        onAddTask(text.trim(), category);
+        setText('');
+        setCategory('Personal');
       };
 
       return (
