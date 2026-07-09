@@ -29,6 +29,20 @@
       const[filter, setFilter] = React.useState('All');
       const [searchTerm, setSearchTerm] = React.useState('');
 
+      // Creates a new array which consists only of the tasks that MATCH BOTH the filter and the search
+      const filteredTasks = tasks.filter((task) => {
+         const matchesFilter = 
+            filter === 'All' ? true :
+            filter === 'Active' ? !task.completed :
+            task.completed;
+          
+          const matchesSearch = task.text
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
+          
+          return matchesFilter && matchesSearch;
+      });
+
       function addTask(text, category) {
         const newTask = {
           text: text,
@@ -56,8 +70,14 @@
         <div className="app">
           <h1>Task Tracker</h1>
           <TaskForm onAddTask={addTask} />
+          <TaskFilters 
+            filter={filter}
+            onFilterChange={setFilter}
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+          />
           <TaskList 
-            tasks={tasks}
+            tasks={filteredTasks}
             onToggleTask={toggleTask}
             onDeleteTask={deleteTask}
           />
