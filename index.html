@@ -20,6 +20,12 @@
 
   <script src="https://unpkg.com/supersimpledev/babel.js"></script>
   <script type="text/babel">
+    const FILTER_COLORS = { // All CAPS, this is a constant
+      All: '#4CAF50',
+      Active: '#2196F3', 
+      Completed: '#f44336'
+    }
+
     function App() { // Parent Component
       const [tasks, setTasks] = React.useState([
         { id: 1, text: 'Learn React', category: 'Personal', completed: false },
@@ -163,11 +169,38 @@
     function TaskFilters({ filter, onFilterChange, searchTerm, onSearchChange }) {
       return (
         <div>
-          <button>All</button>
-          <button>Active</button>
-          <button>Completed</button>
+          <button 
+            onClick={() => onFilterChange('All')}
+            style={{
+              fontWeight: filter === 'All' ? 'bold': 'normal',
+              backgroundColor: FILTER_COLORS.All
+            }}
+            >All
+          </button>
+          <button 
+            onClick={() => onFilterChange('Active')}
+            style={{
+              fontWeight: filter === 'Active' ? 'bold': 'normal',
+              backgroundColor: FILTER_COLORS.Active
+            }}
+            >Active
+          </button>
+          <button 
+            onClick={() => onFilterChange('Completed')}
+            style={{
+              fontWeight: filter === 'Completed' ? 'bold' : 'normal',
+              backgroundColor: FILTER_COLORS.Completed
+            }}
+            >Completed
+          </button>
 
-          <input />
+          <input
+            type='text'
+            placeholder='Search here...' 
+            size='20'
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
         </div>
       );
     }
